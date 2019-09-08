@@ -1,6 +1,6 @@
 import requests
 import json
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 class Stop:
 
@@ -95,11 +95,15 @@ def dataset(n):
 
 app = Flask(__name__)
 
-def run(i):
-    @app.route('/bus_routes')
-    def bus_routes():
-        return jsonify(dataset(i))
-    if __name__ == "__main__":
-        app.run(debug=True)
+@app.route('/bus_routes')
+def bus_routes():
+    i = request.args.get('i')
+    return jsonify(dataset(int(i)))
 
-run(17)
+@app.route('/')
+def data():
+     user = request.args.get('xml')
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
